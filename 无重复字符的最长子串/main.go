@@ -42,6 +42,7 @@ func main() {
 	fmt.Println(length)
 }
 
+// dp思路
 func lengthOfLongestSubstring(s string) int {
 	if len(s) <= 1 {
 		return len(s)
@@ -51,7 +52,7 @@ func lengthOfLongestSubstring(s string) int {
 	var endOfILength = make([]int, len(s))
 	// 以第一个字符结尾的子串无重复长度为1
 	endOfILength[0] = 1
-	fmt.Println(endOfILength)
+	//fmt.Println(endOfILength)
 	for i := 1; i < len(s); i++ {
 		lastCharLength := endOfILength[i-1]
 		// 判断从前一个字符开始往前推lastCharLength个字符，
@@ -71,7 +72,7 @@ func lengthOfLongestSubstring(s string) int {
 		if !isInterrupted{
 			endOfILength[i] = endOfILength[i-1] + 1
 		}
-		fmt.Println(endOfILength)
+		//fmt.Println(endOfILength)
 	}
 
 	// 结束后获得以各个字符结尾的最长子串长度列表
@@ -85,4 +86,72 @@ func lengthOfLongestSubstring(s string) int {
 	return maxLength
 }
 
+/**
 
+	时间复杂度分析
+		i从0到len(s)-1, j 从i往前到m,s[m]=s[i]停止，m最小到0，所以m取值为0-i
+
+		故最坏情况复杂度为 0 + 1 + 2 + 3 + ... + n-1， 分别对应 i从0到n-1时的计算量，
+		即 (0 + n-1) * n = n^2 - n  => O(n^2)
+
+		最好情况就是，每次j无需遍历，只需计算i的计算量，即为O(n)
+
+	空间复杂度即为endOfILength的长度，可优化
+*/
+
+
+// dp + 滑动窗口思路
+func lengthOfLongestSubstringV2(s string) int {
+	if len(s) <= 1 {
+		return len(s)
+	}
+
+	// 以i位置结尾的字符串 无重复最长长度
+	var endOfILength = make([]int, len(s))
+	var locMap = make(map[byte]int)
+	// 以第一个字符结尾的子串无重复长度为1
+	endOfILength[0] = 1
+	locMap[s[0]] = 0
+
+
+	var k = 0
+	for i := 1; i < len(s); i++ {
+		// 判断从前一个字符开始往前推lastCharLength个字符，
+		// 如果没有与当前字符重复的，则endOfILength[i] = endOfILength[i-1]+1
+		// 如果有，记为j,则以当前字符结尾的最大无重复子串为该位置(j,i]，不包含j，包含i
+
+		// abcabcbb
+		j, ok := locMap[s[i]]
+		if ok {
+			// 存在
+			// 删除locMap中 k到j之间位置出现的字符
+			for m:=k; m<=j;m++ {
+				delete(locMap,s[m])
+			}
+			k = j+1
+			endOfILength[i] = i - k + 1
+
+		}else {
+			// 不存在
+			endOfILength[i] = endOfILength[i-1]+1
+		}
+		locMap[s[i]] = i
+
+	}
+
+	// 结束后获得以各个字符结尾的最长子串长度列表
+	var maxLength  int
+	for k:= 0 ; k < len(endOfILength) ; k++{
+		if endOfILength[k] > maxLength {
+			maxLength = endOfILength[k]
+		}
+	}
+
+	return maxLength
+}
+
+/**
+
+	时间复杂度分析： 这种解法循环内部依旧有循环，时间复杂度依旧是最坏O(n^2),最好O(n)
+	空间复杂度：因为引入了map，空间复杂度升高
+*/
