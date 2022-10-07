@@ -17,3 +17,10 @@ func (l *ListNode) Traverse(){
 	fmt.Println()
 }
 
+func SwapInt(nums []int, i,j int){
+	nums[i], nums[j] = nums[j], nums[i]
+}
+
+func SwapBytes(nums []byte, i, j int){
+	nums[i], nums[j] = nums[j], nums[i]
+}
