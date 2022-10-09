@@ -8,22 +8,22 @@ import (
 func main() {
 
 	// 01.删除有序数组中的重复项
-	//removeDuplicatesTest()
+	removeDuplicatesTest()
 
 	// 02.删除排序链表中的重复元素
-	//deleteDuplicatesTest()
+	deleteDuplicatesTest()
 
 	// 03.移除数组中值为target的所有元素，并返回移除后新数组的长度
-	//removeElementTest()
+	removeElementTest()
 
 	// 04.将数组中所有值为0的元素移到数组末尾
-	//moveZeroesTest()
+	moveZeroesTest()
 
 	// 05. 二分查找
 	//binarySearchTest()
 
 	// 06. 两数之和: 数组已经按非递减顺序排列，从数组中找到满足相加之和等于target的两个数的下标，以 [a,b]的形式返回
-	//twoSumTest()
+	twoSumTest()
 
 	// 07. 反转数组
 	//reverseStringTest()

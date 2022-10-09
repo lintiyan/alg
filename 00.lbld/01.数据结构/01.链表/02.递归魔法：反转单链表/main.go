@@ -11,10 +11,10 @@ func main() {
 
 	// 02. 翻转链表的前n个节点
 	//reverseNTest01()
-	reverseNTest02()
+	//reverseNTest02()
 
 	// 03. 翻转链表的一部分
-	//reverseBetweenTest()
+	reverseBetweenTest()
 }
 
 func reverseTest() {
