@@ -87,5 +87,5 @@ func rightBound(nums []int, target int) int {
 		return -1
 	}
 
-	return left - 1
+	return right
 }
