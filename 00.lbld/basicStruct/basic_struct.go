@@ -24,3 +24,10 @@ func SwapInt(nums []int, i,j int){
 func SwapBytes(nums []byte, i, j int){
 	nums[i], nums[j] = nums[j], nums[i]
 }
+
+func GetMin(i, j int) int{
+	if i < j {
+		return i
+	}
+	return j
+}
