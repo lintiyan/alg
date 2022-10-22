@@ -32,5 +32,6 @@ func maxSubArray(nums []int) int {
 			res = dp[i]
 		}
 	}
+
 	return res
 }
