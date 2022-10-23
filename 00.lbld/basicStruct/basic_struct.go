@@ -8,7 +8,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func (l *ListNode) Traverse(){
+func (l *ListNode) Traverse() {
 	cur := l
 	for cur != nil {
 		fmt.Printf("%d ", cur.Val)
@@ -17,16 +17,23 @@ func (l *ListNode) Traverse(){
 	fmt.Println()
 }
 
-func SwapInt(nums []int, i,j int){
+func SwapInt(nums []int, i, j int) {
 	nums[i], nums[j] = nums[j], nums[i]
 }
 
-func SwapBytes(nums []byte, i, j int){
+func SwapBytes(nums []byte, i, j int) {
 	nums[i], nums[j] = nums[j], nums[i]
 }
 
-func GetMin(i, j int) int{
+func GetMin(i, j int) int {
 	if i < j {
+		return i
+	}
+	return j
+}
+
+func GetMax(i, j int) int {
+	if i > j {
 		return i
 	}
 	return j
