@@ -38,3 +38,8 @@ func GetMax(i, j int) int {
 	}
 	return j
 }
+
+type TreeNode struct {
+	Val int
+	Left, Right *TreeNode
+}
