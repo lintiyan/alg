@@ -40,6 +40,16 @@ func GetMax(i, j int) int {
 }
 
 type TreeNode struct {
-	Val int
+	Val         int
 	Left, Right *TreeNode
+}
+
+func (node *TreeNode) Traverse() {
+	if node == nil {
+		return
+	}
+
+	fmt.Print(node.Val, " ")
+	node.Left.Traverse()
+	node.Right.Traverse()
 }

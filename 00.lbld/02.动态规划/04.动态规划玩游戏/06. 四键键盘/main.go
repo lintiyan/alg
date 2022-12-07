@@ -13,7 +13,7 @@ func main() {
 	fmt.Println(maxAFromBottom(7))
 }
 
-// 自顶向下的解法
+// 自顶向下的解法，优点像二叉树的后续遍历哈
 func maxAFromTop(n int) (int, int) {
 	if n == 0 {
 		return 0, 0

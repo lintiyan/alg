@@ -8,6 +8,7 @@ import (
 // 二叉树相关题目的思想一般是两种：
 // 1. 能否通过一次遍历得出答案 --- 回溯思想
 // 2. 能否将问题拆分成子问题然后拼接得出答案 --- dp思想
+// 无论是哪种思想，都需要考虑一点，当前节点需要做什么？需要在什么时候做，是前、中、后的哪个时机？
 
 // 二叉树的先中后遍历无非就是处理当前节点相关的问题的时机不同而已。
 // 但是后序遍历有其特殊之处，后续遍历时能得到子树的处理结果，所以当题目所求与子树的遍历结果相关时，一般需要使用后续遍历了
@@ -130,8 +131,10 @@ func diameterOfTreeDepth(node *basicStruct.TreeNode) int {
 		return 0
 	}
 
+	// 获取左右子树的最大深度
 	left := diameterOfTreeDepth(node.Left)
 	right := diameterOfTreeDepth(node.Right)
+	// 最大直径就是最大左右子树的最大深度之和
 	diameterOfTD = basicStruct.GetMax(diameterOfTD, left + right)
 
 	return basicStruct.GetMax(left, right) + 1
