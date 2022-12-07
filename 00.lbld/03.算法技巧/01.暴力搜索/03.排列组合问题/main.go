@@ -6,6 +6,9 @@ func main() {
 
 	// 01. 给一个无重复元素的数组nums，每个元素最多使用一次，请返回nums所有的子集
 	fmt.Println(SubSets([]int{1, 2, 3}))
+
+	// 02. 给定两个整数n 和 K，返回范围[1,n]中，所有可能的K个数的组合
+	fmt.Println(Combine(3,2))
 }
 
 type Result struct {
@@ -50,4 +53,25 @@ func copyRes(src []int) []int {
 	var dst = make([]int, len(src))
 	copy(dst, src)
 	return dst
+}
+
+func Combine(n int, k int) [][]int {
+	var nums []int
+	for i := 1; i <= n; i++ {
+		nums = append(nums, i)
+	}
+	var result = &Result{}
+	CombineBasic(k, nums, 0, []int{}, result)
+	return result.ResAll
+}
+func CombineBasic(k int, nums []int, start int, res []int, result *Result) {
+	if len(res) == k {
+		result.ResAll = append(result.ResAll, copyRes(res))
+	}
+
+	for i := start; i < len(nums); i++ {
+		res = append(res, nums[i])
+		CombineBasic(k, nums, i+1, res, result)
+		res = res[:len(res)-1]
+	}
 }
