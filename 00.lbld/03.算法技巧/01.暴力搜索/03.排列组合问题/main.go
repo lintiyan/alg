@@ -3,9 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/alg/00.lbld/basicStruct"
+	"sort"
 )
 
 func main() {
+
+	// 元素无重不可复选
 
 	// 01. 给一个无重复元素的数组nums，每个元素最多使用一次，请返回nums所有的子集
 	fmt.Println(SubSets([]int{1, 2, 3}))
@@ -14,7 +17,14 @@ func main() {
 	fmt.Println(Combine(3, 2))
 
 	// 03. 给定一个不重复数组的数组，返回其所有可能的全排列
-	fmt.Println(permute([]int{1,2,3}))
+	fmt.Println(permute([]int{1, 2, 3}))
+
+	// 元素可重不可复选
+	// 04. 给你一个整数数组，其中可能包含重复元素，请你返回改数组所有可能的子集
+	fmt.Println(SubSetsWithDup([]int{1, 2, 2}))
+
+	// 05. 给你一个可包含重复数字的序列，返回所有可能的全排列
+	fmt.Println(permuteUnique([]int{1, 2, 2}))
 }
 
 type Result struct {
@@ -55,7 +65,6 @@ func SubSetsBasic(nums []int, start int, res []int, result *Result) {
 	}
 }
 
-
 func Combine(n int, k int) [][]int {
 	var nums []int
 	for i := 1; i <= n; i++ {
@@ -79,21 +88,77 @@ func CombineBasic(k int, nums []int, start int, res []int, result *Result) {
 
 func permute(nums []int) [][]int {
 	var result = &Result{}
-	permuteBasic(nums, []int{}, result)
+	var used = make([]bool, len(nums)) // 判断元素是否已使用
+	permuteBasic(nums, []int{}, used, result)
 	return result.ResAll
 }
-func permuteBasic(nums []int, res []int, result *Result) {
+func permuteBasic(nums []int, res []int, used []bool, result *Result) {
 
-	if len(res) == len(nums){
+	if len(res) == len(nums) {
 		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
 		return
 	}
 
-	for i:=0 ;i<len(nums);i++{
-		if !basicStruct.ContainsItem(res, nums[i]){
+	for i := 0; i < len(nums); i++ {
+		if !used[i] {
 			res = append(res, nums[i])
-			permuteBasic(nums, res, result)
+			used[i] = true
+			permuteBasic(nums, res, used, result)
 			res = res[:len(res)-1]
+			used[i] = false
 		}
+	}
+}
+
+func SubSetsWithDup(nums []int) [][]int {
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] < nums[j]
+	})
+	var result = &Result{}
+	SubSetsWithDupBasic(nums, 0, []int{}, result)
+	return result.ResAll
+}
+func SubSetsWithDupBasic(nums []int, start int, res []int, result *Result) {
+
+	result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
+
+	for i := start; i < len(nums); i++ {
+		// i > start 原因是 避免数组越界，还有是对于某个节点下得分支进行剪枝 [1,2,2] 这种是允许的
+		if i > start && nums[i] == nums[i-1] {
+			continue
+		}
+		res = append(res, nums[i])
+		SubSetsWithDupBasic(nums, i+1, res, result)
+		res = res[:len(res)-1]
+	}
+}
+
+func permuteUnique(nums []int) [][]int {
+	var result = &Result{}
+	used := make([]bool, len(nums))
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] < nums[j]
+	})
+	permuteUniqueBasic(nums, []int{}, used, result)
+	return result.ResAll
+}
+func permuteUniqueBasic(nums []int, res []int, used []bool, result *Result) {
+
+	if len(res) == len(nums) {
+		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		// 已使用过当然得过滤掉
+		// 如果nums[i]=nums[i-1]，则表示分支有重复，那么如果nums[i-1]没有被使用得话，nums[i]也不能被使用，这样去保证相同元素的相对位置
+		if used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1]) {
+			continue
+		}
+		used[i] = true
+		res = append(res, nums[i])
+		permuteUniqueBasic(nums, res, used, result)
+		res = res[:len(res)-1]
+		used[i] = false
 	}
 }
