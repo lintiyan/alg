@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/alg/00.lbld/basicStruct"
+)
 
 func main() {
 
@@ -8,7 +11,10 @@ func main() {
 	fmt.Println(SubSets([]int{1, 2, 3}))
 
 	// 02. 给定两个整数n 和 K，返回范围[1,n]中，所有可能的K个数的组合
-	fmt.Println(Combine(3,2))
+	fmt.Println(Combine(3, 2))
+
+	// 03. 给定一个不重复数组的数组，返回其所有可能的全排列
+	fmt.Println(permute([]int{1,2,3}))
 }
 
 type Result struct {
@@ -34,7 +40,7 @@ func SubSets(nums []int) [][]int {
 func SubSetsBasic(nums []int, start int, res []int, result *Result) {
 
 	// 树上的每个节点都是子集
-	result.ResAll = append(result.ResAll, copyRes(res))
+	result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
 
 	// 有j到len(nums)-1种选择
 	for j := start; j < len(nums); j++ {
@@ -49,11 +55,6 @@ func SubSetsBasic(nums []int, start int, res []int, result *Result) {
 	}
 }
 
-func copyRes(src []int) []int {
-	var dst = make([]int, len(src))
-	copy(dst, src)
-	return dst
-}
 
 func Combine(n int, k int) [][]int {
 	var nums []int
@@ -66,12 +67,33 @@ func Combine(n int, k int) [][]int {
 }
 func CombineBasic(k int, nums []int, start int, res []int, result *Result) {
 	if len(res) == k {
-		result.ResAll = append(result.ResAll, copyRes(res))
+		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
 	}
 
 	for i := start; i < len(nums); i++ {
 		res = append(res, nums[i])
 		CombineBasic(k, nums, i+1, res, result)
 		res = res[:len(res)-1]
+	}
+}
+
+func permute(nums []int) [][]int {
+	var result = &Result{}
+	permuteBasic(nums, []int{}, result)
+	return result.ResAll
+}
+func permuteBasic(nums []int, res []int, result *Result) {
+
+	if len(res) == len(nums){
+		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
+		return
+	}
+
+	for i:=0 ;i<len(nums);i++{
+		if !basicStruct.ContainsItem(res, nums[i]){
+			res = append(res, nums[i])
+			permuteBasic(nums, res, result)
+			res = res[:len(res)-1]
+		}
 	}
 }

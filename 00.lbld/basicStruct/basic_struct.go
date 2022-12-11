@@ -53,3 +53,18 @@ func (node *TreeNode) Traverse() {
 	node.Left.Traverse()
 	node.Right.Traverse()
 }
+
+func CopyRes(src []int) []int {
+	var dst = make([]int, len(src))
+	copy(dst, src)
+	return dst
+}
+
+func ContainsItem(nums []int, target int)bool {
+	for _, item := range nums{
+		if item == target {
+			return true
+		}
+	}
+	return false
+}
