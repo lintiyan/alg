@@ -25,6 +25,14 @@ func main() {
 
 	// 05. 给你一个可包含重复数字的序列，返回所有可能的全排列
 	fmt.Println(permuteUnique([]int{1, 2, 2}))
+
+	// 元素无重复，可复选
+
+	// 06. 给定一个数组，返回和为target的所有组合
+	fmt.Println(CombinationSum([]int{1, 2, 3}, 3))
+
+	// 07. 给定一个数组，返回所有的全排列，值可复选，各个排列的长度不超过数组长度
+	fmt.Println(permuteRepeat([]int{1,2,3}))
 }
 
 type Result struct {
@@ -160,5 +168,51 @@ func permuteUniqueBasic(nums []int, res []int, used []bool, result *Result) {
 		permuteUniqueBasic(nums, res, used, result)
 		res = res[:len(res)-1]
 		used[i] = false
+	}
+}
+
+func CombinationSum(nums []int, target int) [][]int {
+	var result = &Result{}
+	CombinationSumBasic(nums, target, 0, []int{}, 0, result)
+	return result.ResAll
+}
+func CombinationSumBasic(nums []int, target int, start int, res []int, trackSum int, result *Result) {
+
+	if trackSum == target {
+		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
+		return
+	}
+	if trackSum >= target {
+		return
+	}
+
+	for i := start; i < len(nums); i++ {
+		res = append(res, nums[i])
+		trackSum += nums[i]
+
+		// 这里start还是取i就是因为元素可复选
+		CombinationSumBasic(nums, target, i, res, trackSum, result)
+		res = res[:len(res)-1]
+		trackSum -= nums[i]
+	}
+}
+
+func permuteRepeat(nums []int) [][]int {
+	var result = &Result{}
+	permuteRepeatBasic(nums, []int{}, result)
+	return result.ResAll
+}
+
+func permuteRepeatBasic(nums []int, res []int, result *Result) {
+
+	if len(res) == len(nums){
+		result.ResAll = append(result.ResAll, basicStruct.CopyRes(res))
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		res = append(res, nums[i])
+		permuteRepeatBasic(nums, res, result)
+		res = res[:len(res)-1]
 	}
 }

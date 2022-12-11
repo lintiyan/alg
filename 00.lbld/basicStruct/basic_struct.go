@@ -68,3 +68,11 @@ func ContainsItem(nums []int, target int)bool {
 	}
 	return false
 }
+
+func SliceSum(nums []int) int {
+	var res int
+	for _, item := range nums {
+		res += item
+	}
+	return res
+}
