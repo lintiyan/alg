@@ -8,25 +8,25 @@ import (
 func main() {
 
 	// 1. 合并两个有序链表
-	//mergeTwoListsTest()
+	mergeTwoListsTest()
 
 	// 2. 合并K个有序链表
-	//mergeKListsTest()
+	mergeKListsTest()
 
 	// 3. 单链表的倒数第K个节点
-	//findFromEndTest()
+	findFromEndTest()
 
 	// 4. 删除链表的倒数第k个节点
-	//removeKthFromEndTest()
+	removeKthFromEndTest()
 
 	// 5. 找到单链表的中点
-	//middleNodeTest()
+	middleNodeTest()
 
 	// 6. 判断链表是否包含环
-	//hasCycleTest()
+	hasCycleTest()
 
 	// 7. 判断链表是否有环，如果有返回环的开始节点
-	//detectCycleTest()
+	detectCycleTest()
 
 	// 8. 两个链表是否相交
 	getIntersectionNodeTest()

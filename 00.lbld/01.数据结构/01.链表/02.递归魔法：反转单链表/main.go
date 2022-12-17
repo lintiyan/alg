@@ -7,11 +7,11 @@ import (
 func main() {
 
 	// 01. 翻转单链表
-	//reverseTest()
+	reverseTest()
 
 	// 02. 翻转链表的前n个节点
-	//reverseNTest01()
-	//reverseNTest02()
+	reverseNTest01()
+	reverseNTest02()
 
 	// 03. 翻转链表的一部分
 	reverseBetweenTest()
